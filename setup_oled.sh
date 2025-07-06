@@ -68,6 +68,17 @@ source stats_env/bin/activate
 cd RaspberryPi-OLED
 
 ########################################
+# I2C check & auto-enable
+if [ ! -e /dev/i2c-1 ]; then
+    echo -e "${GREEN}⚠️  I²C interface is not enabled. Enabling it now...${NC}"
+    sudo raspi-config nonint do_i2c 0
+    echo -e "${GREEN}✅ I²C enabled. Rebooting required.${NC}"
+    echo "Please rerun this script after reboot:"
+    echo -e "${GREEN}./setup_oled.sh${NC}"
+    sudo reboot
+fi
+
+########################################
 # OLED Display Wiring Instructions
 clear
 cat << "EOF"
